@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class AnimeNewsNetworkAPIToKafka {
+    // TODO: write commandline args here as example
     public static void main(String[] args) throws IOException {
         AppConfig appConfig = AppConfig.getInstance(args);
         getInputStream(appConfig, 50, 10000L, 9999);
