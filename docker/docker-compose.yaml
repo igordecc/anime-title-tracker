@@ -1,25 +1,19 @@
 version: "3.8"
 services:
   zookeeper-1:
-    entrypoint: /bin/bash
-    stdin_open: true
-    tty: true
     container_name: zookeeper-1
     image: aimvector/zookeeper:2.4.0
     build:
-      context: ${PROJECT_PATH}/anime-title-tracker/docker/zookeeper
+      context: ${PROJECT_PATH}/docker/zookeeper
     volumes:
       - ./config/zookeeper-1/zookeeper.properties:/kafka/config/zookeeper.properties
     ports:
       - "2181:2181"
   kafka-1:
-    entrypoint: /bin/bash
-    stdin_open: true
-    tty: true
     container_name: kafka-1
     image: aimvector/kafka:2.4.0
     build:
-      context: ${PROJECT_PATH}/anime-title-tracker/docker
+      context: ${PROJECT_PATH}/docker
     volumes:
       - ./config/kafka-1/server.properties:/kafka/config/server.properties
       - ./data/kafka-1/:/tmp/kafka-logs/
@@ -30,13 +24,10 @@ services:
     depends_on:
       - zookeeper-1
   kafka-2:
-    entrypoint: /bin/bash
-    stdin_open: true
-    tty: true
     container_name: kafka-2
     image: aimvector/kafka:2.4.0
     build:
-      context: ${PROJECT_PATH}/anime-title-tracker/docker
+      context: ${PROJECT_PATH}/docker
     volumes:
       - ./config/kafka-2/server.properties:/kafka/config/server.properties
       - ./data/kafka-2/:/tmp/kafka-logs/
@@ -47,13 +38,10 @@ services:
     depends_on:
       - zookeeper-1
   kafka-3:
-    entrypoint: /bin/bash
-    stdin_open: true
-    tty: true
     container_name: kafka-3
     image: aimvector/kafka:2.4.0
     build:
-      context: ${PROJECT_PATH}/anime-title-tracker/docker
+      context: ${PROJECT_PATH}/docker
     volumes:
       - ./config/kafka-3/server.properties:/kafka/config/server.properties
       - ./data/kafka-3/:/tmp/kafka-logs/
@@ -67,7 +55,7 @@ services:
     container_name: kafka-producer
     image: aimvector/kafka:2.4.0
     build:
-      context: ${PROJECT_PATH}/anime-title-tracker/docker
+      context: ${PROJECT_PATH}/docker
     working_dir: /kafka
     entrypoint: /bin/bash
     stdin_open: true
@@ -76,7 +64,7 @@ services:
     container_name: kafka-consumer
     image: aimvector/kafka:2.4.0
     build:
-      context: ${PROJECT_PATH}/anime-title-tracker/docker
+      context: ${PROJECT_PATH}/docker
     working_dir: /kafka
     entrypoint: /bin/bash
     stdin_open: true
