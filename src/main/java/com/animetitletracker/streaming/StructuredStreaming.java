@@ -49,6 +49,21 @@ public class StructuredStreaming {
         .start()
         .awaitTermination();
 
+        Dataset<ESStreamingSchema> resultDS = openSky.as(Encoders.bean(ESStreamingSchema.class));
+
+        //sending data to ElasticSearch
+        resultDS.writeStream()
+                .outputMode("append")
+                .queryName("writing_to_es")
+                .format("org.elasticsearch.spark.sql")
+                .option("fetchOffset.retryIntervalMs", 10001)
+                .option("es.resource", appConfig.getEsSource())
+                .option("checkpointLocation", appConfig.getCheckpointLocation())
+                .option("es.nodes", appConfig.getESNodes())
+                .option("es.port", appConfig.getESPort())
+                .start()
+                .awaitTermination();
+
 //        openSky.show();
 
 //        //transform openSky data to ES format
