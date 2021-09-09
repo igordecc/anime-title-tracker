@@ -15,7 +15,6 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,7 +67,7 @@ public class AnimeNewsNetworkAPIToKafka {
                 ObjectMapper objectMapper = new ObjectMapper();
                 String outJson = objectMapper.writeValueAsString(outList);
                 System.out.println(outJson);
-                KafkaProducerForANN.runProducer(outJson, appConfig);
+                KafkaProducerForATT.runProducer(outJson, appConfig);
 
                 Thread.sleep(sleepTime);
             }

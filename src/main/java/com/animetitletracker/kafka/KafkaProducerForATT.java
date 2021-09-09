@@ -5,7 +5,6 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.LongSerializer;
-import org.apache.kafka.common.serialization.StringSerializer;
 import org.codehaus.jackson.map.ObjectMapper;
 
 
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Properties;
 
 
-public class KafkaProducerForANN {
+public class KafkaProducerForATT {
     public static void runProducer(String data,  AppConfig appConfig) {
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
@@ -27,16 +26,16 @@ public class KafkaProducerForANN {
 
         ObjectMapper mapper = new ObjectMapper();
 
-        KafkaProducer<Long, ANNSchema> producer = new KafkaProducer<>(props);
+        KafkaProducer<Long, ATTSchema> producer = new KafkaProducer<>(props);
 
 
         try {
-            List<ANNSchema> openSkyObjects = Arrays.asList(mapper.readValue(data,
-                    ANNSchema[].class));
+            List<ATTSchema> openSkyObjects = Arrays.asList(mapper.readValue(data,
+                    ATTSchema[].class));
 
             for (int i = 0; i < openSkyObjects.size(); i ++) {
                 long time = System.currentTimeMillis();
-                ProducerRecord<Long, ANNSchema> record = new ProducerRecord<>(appConfig.getTopic(),
+                ProducerRecord<Long, ATTSchema> record = new ProducerRecord<>(appConfig.getTopic(),
                         time + i, openSkyObjects.get(i));
 
                 producer.send(record);
