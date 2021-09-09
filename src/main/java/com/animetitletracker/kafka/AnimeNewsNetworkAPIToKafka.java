@@ -55,11 +55,19 @@ public class AnimeNewsNetworkAPIToKafka {
                     outMap.put("animeType", matcher.find() ? matcher.group() : "");
                     outMap.put("dateAdded", element.select("date_added").text());
 
+                    System.out.println("------ data unit ------");
+                    System.out.println(element.select("anime").text());
+                    System.out.println(matcher.find() ? matcher.group() : "");
+                    System.out.println(element.select("date_added").text());
+
                     outList.add(outMap);
                 }
 
+                System.out.println("============ end of the batch =============");
+
                 ObjectMapper objectMapper = new ObjectMapper();
                 String outJson = objectMapper.writeValueAsString(outList);
+                System.out.println(outJson);
                 KafkaProducerForANN.runProducer(outJson, appConfig);
 
                 Thread.sleep(sleepTime);
